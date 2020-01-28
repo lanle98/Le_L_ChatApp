@@ -11,6 +11,10 @@ function runDisconnectMessage(packet) {
   console.log(packet);
 }
 
+function appendNewMessage(msg) {
+  vm.messages.push(msg);
+}
+
 //this is our main Vue instance
 const vm = new Vue({
   data: {
@@ -28,6 +32,7 @@ const vm = new Vue({
         content: this.message,
         name: this.nickName || "anonymus"
       });
+      this.message = "";
     }
   },
 
@@ -43,3 +48,4 @@ const vm = new Vue({
 //some event handling -> these events are coming from the server
 socket.addEventListener("connected", setUserId);
 socket.addEventListener("user_disconnect", runDisconnectMessage);
+socket.addEventListener("new_message", appendNewMessage);
