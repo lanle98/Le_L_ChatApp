@@ -27,7 +27,7 @@ io.on("connection", function(socket) {
 
   //listen for an incoming message from a user (socket refers to an individual user)
   socket.on("chat_message", function(msg) {
-    console.log(msg);
+    console.log(this);
 
     //when we get a new message, send it to everyone so they can see it
     // io is the
