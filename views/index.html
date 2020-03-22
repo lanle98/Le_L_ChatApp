@@ -6,6 +6,7 @@
   <title>Socket IO Chat with Node!</title>
   <link rel="stylesheet" href="css/main.css" />
   <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 </head>
 
 <body>
@@ -19,6 +20,10 @@
         <textarea v-model="message" class="message" type="text" autocomplete="off" id="textarea"></textarea>
         <input @click.prevent="dispatchMessage" type="submit" />
       </form>
+
+      <ul id="notifications" v-for="notification in notifications">
+        <li>{{notification}}</li>
+      </ul>
     </section>
 
     <section class="messages">

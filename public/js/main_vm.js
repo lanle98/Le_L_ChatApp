@@ -7,9 +7,11 @@ function setUserId(sID) {
   vm.socketID = sID;
 }
 
-function runDisconnectMessage(packet) {
-  console.log(packet);
+function runNotification(packet) {
+  vm.notifications.push(packet)
 }
+
+
 
 function appendNewMessage(msg) {
   vm.messages.push(msg);
@@ -21,7 +23,8 @@ const vm = new Vue({
     socketID: "",
     messages: [],
     message: "",
-    nickName: ""
+    nickName: "",
+    notifications: []
   },
 
   methods: {
@@ -47,5 +50,6 @@ const vm = new Vue({
 
 //some event handling -> these events are coming from the server
 socket.addEventListener("connected", setUserId);
-socket.addEventListener("user_disconnect", runDisconnectMessage);
+socket.addEventListener("user_disconnect", runNotification);
+socket.addEventListener("user_connected", runNotification);
 socket.addEventListener("new_message", appendNewMessage);
