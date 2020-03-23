@@ -13,6 +13,12 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
 
+// app.get("/", (req, res) => {
+//   res.sendFile(__dirname + "/views/login.html");
+// });
+
+
+
 const server = app.listen(port, () => {
   console.log(`app is running on port ${port}`);
 });
@@ -21,12 +27,12 @@ const server = app.listen(port, () => {
 
 //attach socket.io
 io.attach(server);
-io.on("connection", function(socket) {
+io.on("connection", function (socket) {
   console.log("user connected");
   socket.emit("connected", { sID: `${socket.id}`, message: "new connection" });
-
+  io.emit("user_connected", `${socket.id} has joined the chat`);
   //listen for an incoming message from a user (socket refers to an individual user)
-  socket.on("chat_message", function(msg) {
+  socket.on("chat_message", function (msg) {
     console.log(this);
 
     //when we get a new message, send it to everyone so they can see it
@@ -37,8 +43,9 @@ io.on("connection", function(socket) {
     });
   });
 
+
   // listen for a disconnect event
-  socket.on("disconnect", function() {
+  socket.on("disconnect", function () {
     console.log("a user disconnected");
 
     message = `${socket.id} has left the chat`;

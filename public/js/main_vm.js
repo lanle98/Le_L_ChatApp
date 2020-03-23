@@ -7,9 +7,11 @@ function setUserId(sID) {
   vm.socketID = sID;
 }
 
-function runDisconnectMessage(packet) {
-  console.log(packet);
+function runNotification(packet) {
+  vm.notifications.push(packet)
 }
+
+
 
 function appendNewMessage(msg) {
   vm.messages.push(msg);
@@ -21,7 +23,9 @@ const vm = new Vue({
     socketID: "",
     messages: [],
     message: "",
-    nickName: ""
+    nickName: "",
+    notifications: [],
+    nameIsNotSet: true
   },
 
   methods: {
@@ -33,6 +37,17 @@ const vm = new Vue({
         name: this.nickName || "anonymus"
       });
       this.message = "";
+    },
+
+    setName() {
+      if (this.nickName !== '') {
+        this.nameIsNotSet = false
+      } else {
+        document.querySelector('#nickname').classList.add('wiggle')
+        setTimeout(() => {
+          document.querySelector('#nickname').classList.remove('wiggle')
+        }, 200)
+      }
     }
   },
 
@@ -47,5 +62,6 @@ const vm = new Vue({
 
 //some event handling -> these events are coming from the server
 socket.addEventListener("connected", setUserId);
-socket.addEventListener("user_disconnect", runDisconnectMessage);
+socket.addEventListener("user_disconnect", runNotification);
+socket.addEventListener("user_connected", runNotification);
 socket.addEventListener("new_message", appendNewMessage);
