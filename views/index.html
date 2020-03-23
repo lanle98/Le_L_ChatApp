@@ -5,34 +5,48 @@
   <meta charset="UTF-8" />
   <title>Socket IO Chat with Node!</title>
   <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
   <script src="https://unpkg.com/vue"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 </head>
 
 <body>
   <main id="app">
-    <section class="form-container">
-      <label for="nickname">Your Nickname (optional)</label>
-      <input v-model="nickName" type="text" id="nickname" class="nickname" placeholder="What is your nickname?" />
+    <div class="name text-center container vh-100 d-flex flex-column justify-content-center align-items-center"
+      v-if="nameIsNotSet">
+      <h1>Welcome to Chatbox</h1>
+      <input v-model="nickName" type="text" id="nickname" class="nickname w-50 m-3"
+        placeholder="What is your nickname?" />
+      <input class="btn btn-danger" :class="{btnPrimary: nickName.length >1}" @click.prevent="setName" type="submit" />
+    </div>
+    <div v-else>
 
-      <form>
-        <label for="message">Something to say?</label>
-        <textarea v-model="message" class="message" type="text" autocomplete="off" id="textarea"></textarea>
-        <input @click.prevent="dispatchMessage" type="submit" />
-      </form>
 
-      <ul id="notifications" v-for="notification in notifications">
-        <li>{{notification}}</li>
-      </ul>
-    </section>
+      <section class="messages">
+        <ul id="messages" v-for="message in messages">
+          <!-- render a new message component for every message -->
 
-    <section class="messages">
-      <ul id="messages" v-for="message in messages">
-        <!-- render a new message component for every message -->
+          <newmessage :msg="message" />
+        </ul>
 
-        <newmessage :msg="message" />
-      </ul>
-    </section>
+      </section>
+
+      <section class="form-container row m-0">
+
+
+        <form class="col-md-8">
+          <textarea v-model="message" class="message w-100" type="text" autocomplete="off" id="textarea"></textarea>
+          <input @click.prevent="dispatchMessage" type="submit" value="Send" />
+        </form>
+
+        <ul class="col-md-4 h-100" id="notifications">
+          <li v-for="notification in notifications">{{notification}}</li>
+        </ul>
+
+      </section>
+    </div>
   </main>
   <script src="/socket.io/socket.io.js"></script>
   <script type="module" src="js/main_vm.js"></script>

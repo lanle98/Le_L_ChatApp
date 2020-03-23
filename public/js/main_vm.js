@@ -24,7 +24,8 @@ const vm = new Vue({
     messages: [],
     message: "",
     nickName: "",
-    notifications: []
+    notifications: [],
+    nameIsNotSet: true
   },
 
   methods: {
@@ -36,6 +37,17 @@ const vm = new Vue({
         name: this.nickName || "anonymus"
       });
       this.message = "";
+    },
+
+    setName() {
+      if (this.nickName !== '') {
+        this.nameIsNotSet = false
+      } else {
+        document.querySelector('#nickname').classList.add('wiggle')
+        setTimeout(() => {
+          document.querySelector('#nickname').classList.remove('wiggle')
+        }, 200)
+      }
     }
   },
 
