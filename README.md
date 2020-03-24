@@ -1,7 +1,6 @@
 # Le_L_ChatApp
 
-This is an online chat app where you can send your messages through the Socket.io platform
-
+This is an app where you can send your messages online using the Socket.io platform
 
 
 ## Getting started
