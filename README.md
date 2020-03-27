@@ -5,7 +5,7 @@ This is an app where you can send your messages online using the Socket.io platf
 
 ## Getting started
 * Clone the Repo ```git clone```
-* Install NODE ``` npm install```
+* Install packages ``` npm install```
 * In the Terminal run ``` npm start```
 * In the Browser go ``` localhost:3030```
 
